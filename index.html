@@ -22,10 +22,10 @@ function buildAIReport(){
  const includeNames=document.getElementById('aiIncludeNames').checked;
  const dateOnly=t=>{if(!t.date)return '';const d=new Date(t.date);return Number.isNaN(d.getTime())?'':String(t.date).slice(0,10)};
  const all=state.transactions.filter(t=>dateOnly(t)).slice().sort((a,b)=>String(a.date).localeCompare(String(b.date)));
- const selected=all.filter(t=>mode==='full'||dateOnly(t).startsWith(month));
+ const selected=all.filter(t=>(mode==='full'||dateOnly(t).startsWith(month))&&!t.reversed&&t.kind!=='reversal');
  const endDate=today();
  const start=mode==='monthly'?month+'-01':(all.length?dateOnly(all[0]):endDate);
- const end=mode==='monthly'?((month===endDate.slice(0,7))?endDate:new Date(Number(month.slice(0,4)),Number(month.slice(5,7)),0).toLocaleDateString('en-CA')):endDate;
+ const end=mode==='monthly'?((month===endDate.slice(0,7))?endDate:new Date(Date.UTC(Number(month.slice(0,4)),Number(month.slice(5,7)),0)).toISOString().slice(0,10)):endDate;
  const validStart=new Date(start+'T12:00:00'),validEnd=new Date(end+'T12:00:00');
  const days=Math.max(1,Math.round((validEnd-validStart)/86400000)+1);
  const months=mode==='monthly'?1:Math.max(1,days/(365.2425/12));
