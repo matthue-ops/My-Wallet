@@ -4,7 +4,7 @@
 <section id="home" class="section active"><div class="hero"><div class="row"><span class="muted">Cash on Hand</span><button class="btn small ghost" onclick="openCashEdit()">✎ Edit</button></div><div class="row" style="justify-content:flex-start;gap:10px"><div class="amount" id="cash" style="margin:8px 0">₱••••••</div><button class="btn small ghost" type="button" id="cashVisibilityButton" onclick="toggleCashVisibility()" aria-label="Show Cash on Hand" title="Show Cash on Hand" style="padding:8px;display:inline-flex;align-items:center"><svg id="cashEyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A11 11 0 0 1 12 5c6.5 0 10 7 10 7-3.5 7-10 7-1.6 0-3-.4-4.2-1"/><path d="M6.3 6.3C3.5 8.3 2 12 2 12s3.5 7 10 7c1.6 0 3-.4 4.2-1"/></svg></button></div><div class="muted">Actual recorded balance, not a forecast</div></div><div class="actions"><button class="btn green" onclick="openTransaction('income')">＋ Add Income</button><button class="btn secondary" onclick="openTransaction('expense')">－ Deduct Expense</button></div><div class="card"><div class="row"><h2>Upcoming payments</h2><button class="btn small secondary" onclick="go('payments')">View all</button></div><div id="upcoming"></div></div><div class="card"><h2>Cash outlook</h2><div class="row"><span class="muted">Unpaid due in next 30 days</span><b id="next30"></b></div><div class="row" style="margin-top:10px"><span class="muted">Cash after those payments*</span><b id="forecast"></b></div><p class="hint">*Planning only. Upcoming bills are not deducted until recorded as paid. Does not include future income or everyday spending.</p></div></section>
 <section id="payments" class="section"><div class="card"><div class="row"><h2>Payments & Loans</h2><button class="btn small" onclick="openNewPayment()">＋ Add</button></div><div class="bar"><input id="paymentSearch" placeholder="Search payments" oninput="renderPayments()"><select id="paymentFilter" onchange="renderPayments()"><option value="upcoming">Unpaid</option><option value="all">All</option><option value="paid">Paid</option></select></div><div id="paymentList"></div></div></section>
 <section id="history" class="section"><div class="card"><h2>Transaction history</h2><div class="bar"><input id="historySearch" placeholder="Search transactions" oninput="renderHistory()"><select id="historyFilter" onchange="renderHistory()"><option value="all">All</option><option value="income">Income</option><option value="expense">Expenses</option><option value="payment">Payments</option><option value="adjustment">Adjustments</option></select></div><div id="historyList"></div></div></section>
-<section id="more" class="section"><div class="card"><h2>Backup & Restore</h2><p class="muted">All records stay on this device unless you export a backup. Keep your JSON file private.</p><div class="inline"><button class="btn" onclick="exportBackup()">Export JSON backup</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Import JSON</button><input type="file" id="importFile" accept=".json,application/json" class="hidden" onchange="importBackup(event)"></div><p class="hint">Import replaces this device's data after confirmation. You will be offered a backup first.</p></div><div class="card"><h2>Settings</h2><button class="btn secondary" onclick="openCashEdit()">Correct Cash on Hand</button><p class="hint">Corrections are recorded in History. Previously entered income and expenses are never replayed.</p><button class="btn ghost" id="installButton" onclick="installApp()" style="display:none">Install app</button><div class="card" style="margin:14px 0 0;padding:14px"><div class="row"><div><b>App updates</b><div class="hint">Version 1.1.0</div></div><button class="btn secondary small" id="checkUpdatesButton" onclick="checkForUpdates()">Check for Updates</button></div><p id="updateStatus" class="hint" role="status" aria-live="polite">Updates require an internet connection. Your financial data stays on this device.</p><button class="btn green small hidden" id="applyUpdateButton" onclick="applyAppUpdate()">Update &amp; Restart</button></div><p class="hint" id="installHint">To install: publish only the app files to HTTPS hosting, open the link in Chrome, then choose Install app / Add to Home screen.</p></div><div class="card"><h2>About this app</h2><p class="muted">No accounts, no external libraries, no analytics. This device stores your balance, loans and transactions. Export backups regularly, especially before clearing browser storage or switching devices.</p></div></section></main>
+<section id="more" class="section"><div class="card"><h2>Backup & Restore</h2><p class="muted">All records stay on this device unless you export a backup. Keep your JSON file private.</p><div class="inline"><button class="btn" onclick="exportBackup()">Export JSON backup</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Import JSON</button><input type="file" id="importFile" accept=".json,application/json" class="hidden" onchange="importBackup(event)"></div><p class="hint">Import replaces this device's data after confirmation. You will be offered a backup first.</p></div><div class="card"><h2>Settings</h2><button class="btn secondary" onclick="openCashEdit()">Correct Cash on Hand</button><p class="hint">Corrections are recorded in History. Previously entered income and expenses are never replayed.</p><button class="btn ghost" id="installButton" onclick="installApp()" style="display:none">Install app</button><div class="card" style="margin:14px 0 0;padding:14px"><div class="row"><div><b>App updates</b><div class="hint">Version 1.2.0 · Automatically checks when online</div></div></div><p id="updateStatus" class="hint" role="status" aria-live="polite">Updates require an internet connection. Your financial data stays on this device.</p><button class="btn green small hidden" id="applyUpdateButton" onclick="applyAppUpdate()">Update &amp; Restart</button></div><p class="hint" id="installHint">To install: publish only the app files to HTTPS hosting, open the link in Chrome, then choose Install app / Add to Home screen.</p></div><div class="card"><h2>About this app</h2><p class="muted">No accounts, no external libraries, no analytics. This device stores your balance, loans and transactions. Export backups regularly, especially before clearing browser storage or switching devices.</p></div></section></main>
 <nav class="nav"><div class="nav-inner"><button data-tab="home" class="active" onclick="go('home')">⌂<br>Home</button><button data-tab="payments" onclick="go('payments')">▦<br>Payments</button><button data-tab="history" onclick="go('history')">◷<br>History</button><button data-tab="more" onclick="go('more')">☰<br>More</button></div></nav>
 <dialog class="dialog" id="dlg"><button class="close" onclick="closeDlg()" aria-label="Close">×</button><div id="dlgBody"></div></dialog>
 <script>
@@ -19,19 +19,19 @@ function updateMessage(message){const el=document.getElementById('updateStatus')
 function updateAvailable(reg){return !!(reg&&reg.waiting&&navigator.serviceWorker.controller)}
 function showUpdateAvailable(reg){if(!updateAvailable(reg))return;walletSWRegistration=reg;updateMessage('An update is ready. Export a JSON backup before updating if you have important changes.');document.getElementById('applyUpdateButton').classList.remove('hidden')}
 async function checkForUpdates(){
- const button=document.getElementById('checkUpdatesButton');
- if(!('serviceWorker'in navigator)||location.protocol==='file:'){updateMessage('Open the installed HTTPS app to check for updates.');return}
- if(!navigator.onLine){updateMessage('Offline. Connect to the internet and try again.');return}
- button.disabled=true;updateMessage('Checking for updates…');
+ if(!('serviceWorker'in navigator)||location.protocol==='file:')return;
+ if(!navigator.onLine){updateMessage('Offline. Updates will be checked when you reconnect.');return}
+ const reg=walletSWRegistration||await navigator.serviceWorker.getRegistration('./');
+ if(!reg)return;
+ walletSWRegistration=reg;
+ if(updateAvailable(reg)){showUpdateAvailable(reg);return}
+ updateMessage('Checking automatically for updates…');
  try{
-  const reg=walletSWRegistration||await navigator.serviceWorker.getRegistration('./');
-  if(!reg){updateMessage('Offline support is not registered yet. Reload this page and try again.');return}
-  walletSWRegistration=reg;await reg.update();
-  if(updateAvailable(reg)){showUpdateAvailable(reg);return}
-  if(reg.installing){updateMessage('Downloading an update…');return}
-  updateMessage('No new update detected. You are using the latest available version.');
- }catch(err){updateMessage('Could not check for updates. Please try again when the site is available.')}
- finally{button.disabled=false}
+  await reg.update();
+  if(updateAvailable(reg))showUpdateAvailable(reg);
+  else if(reg.installing)updateMessage('Downloading a new version…');
+  else updateMessage('Up to date. Updates will be checked automatically when online.');
+ }catch(err){updateMessage('Unable to check now. The app remains available offline; it will try again when you reconnect.')}
 }
 function applyAppUpdate(){
  const reg=walletSWRegistration;
@@ -44,11 +44,14 @@ if('serviceWorker'in navigator&&location.protocol!=='file:'){
  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(walletRefreshing)return;walletRefreshing=true;location.reload()});
  navigator.serviceWorker.register('./sw.js').then(reg=>{
   walletSWRegistration=reg;showUpdateAvailable(reg);
+  // Check once on launch and again when the phone regains connectivity.
+  if(!updateAvailable(reg))checkForUpdates();
   reg.addEventListener('updatefound',()=>{
    const worker=reg.installing;if(!worker)return;
    worker.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller)showUpdateAvailable(reg)})
   });
- }).catch(()=>updateMessage('Offline support registration failed. Try reloading.'));
+ }).catch(()=>updateMessage('Offline support registration failed. Try reopening the app.'));
+ window.addEventListener('online',()=>{checkForUpdates().catch(()=>{})});
 }
 load();
 </script></body></html>
