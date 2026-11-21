@@ -1,6 +1,6 @@
 // Increment the cache version when publishing a new app release.
-const CACHE='my-wallet-shell-v2';
-const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg','./icon-192.png','./icon-512.png'];
+const CACHE='my-wallet-shell-v3';
+const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg','./icon-192.png','./icon-512.png','./app-version.json'];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)));
  // Wait for the user to approve an update instead of interrupting their work.
@@ -14,6 +14,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
  const request=event.request;
  if(request.method!=='GET'||new URL(request.url).origin!==self.location.origin)return;
+ if(new URL(request.url).pathname.endsWith('/app-version.json'))return;
  event.respondWith((async()=>{
   try{
    const response=await fetch(request);
